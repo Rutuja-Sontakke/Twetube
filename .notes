@@ -1,0 +1,29 @@
+1) How to connect DB to backend
+Rutuja123
+Rutuja
+
+
+mongodb+srv://Rutuja:<db_password>@cluster0.lsw8lao.mongodb.net/
+
+
+DB : try catch
+
+Database is always in another contetient. async await must have to use.
+
+use always IIFE 
+;( async () => {
+    try {
+        await mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`)
+        
+    } 
+    catch (err) {
+        console.error("ERROR", err);
+        throw err;
+    }
+
+}) //IIFE
+
+
+2) Custom API response and error handling
+
+# app.use(cors())   //use uses for middlewares or some setting some configuration
