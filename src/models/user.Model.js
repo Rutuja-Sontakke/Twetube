@@ -28,12 +28,12 @@ const userSchema = new Schema({
         type: String,  // Cloudinary URL
         required: true,
     },
-    coverImage: {      // 2. Fixed: Changed duplicate 'avatar' field to 'coverImage'
+    coverImage: {     
         type: String,  // Cloudinary URL
     },
     watchHistory: [
         {
-            type: Schema.Types.ObjectId, // 3. Fixed: Changed Type to Types (with an 's')
+            type: Schema.Types.ObjectId, 
             ref: 'Video'
         }
     ],
@@ -44,7 +44,7 @@ const userSchema = new Schema({
     refreshToken: {
         type: String
     }
-}, { timestamps: true }); // 4. Fixed: Changed timeStamps to lowercase timestamps
+}, { timestamps: true }); // 
 
 // Hash password before saving
 userSchema.pre("save", async function () {
@@ -59,8 +59,8 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 };
 
 // Generate Access Token
-userSchema.methods.generateAccessToken = function() { // 5. Fixed: Removed dot from user.Schema
-    return jwt.sign( // 6. Added missing 'return'
+userSchema.methods.generateAccessToken = function() { //
+    return jwt.sign( // 
         {
             _id: this._id, 
             email: this.email,
@@ -69,18 +69,18 @@ userSchema.methods.generateAccessToken = function() { // 5. Fixed: Removed dot f
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY // 7. Fixed: Spelling of EXPIRARY to EXPIRY
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY // 
         }
     );
 };
 
 // Generate Refresh Token
-userSchema.methods.generateRefreshToken = function() { // 5. Fixed: Removed dot from user.Schema
-    return jwt.sign( // 6. Added missing 'return'
+userSchema.methods.generateRefreshToken = function() { // 
+    return jwt.sign( // 
         {
             _id: this._id
         },
-        process.env.REFRESH_TOKEN_SECRET, // 8. Normalized env variable name
+        process.env.REFRESH_TOKEN_SECRET, 
         {
             expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
