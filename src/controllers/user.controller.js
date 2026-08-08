@@ -267,7 +267,7 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
     }
 
     User.findByIdAndUpdate(
-    req.user?.id,
+    req.user?._id,
     {},
     {}
 
@@ -289,7 +289,7 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
     }
 
     await User.findByIdAndUpdate(
-        req.user?.id,
+        req.user?._id,
         {
             $set: {
                 avatar: avatar.url
@@ -318,7 +318,7 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(
-        req.user?.id,
+        req.user?._id,
         {
             $set: {
                 coverImage: coverImage.url
