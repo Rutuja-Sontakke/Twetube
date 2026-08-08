@@ -329,8 +329,86 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     
     return res 
     .status(200)
-    .json(new apiResponse(200, user, "Cover Image Updated Successfullyy!"))
+    .json(new apiResponse(200, user, "Cover Image Updated Successfully!"))
 })
+
+
+const getUserChannelProfile = asyncHandler(async(req, res) => {
+    const {userName} = req.params
+
+    if(!userName?.trim()) {
+        throw new apiError(400, "username is required");
+    } 
+
+
+    const channel = await User.aggregate([
+        {
+            $match: {
+                userName: userName?.toLowerCase()
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "channel",
+                as: "subscribers"
+            },
+        }, 
+        {
+                $lookup: {
+                    from: "subscriptions",
+                    localField: "_id",
+                    foreignField: "subscriber",
+                    as: "subscribedTo"
+                }
+        },
+        {
+            $addFields: {
+                subscribersCount: {$size: "$subscribers"},
+                subscribedTOCount: {$size: "$subscribedTo"},
+                isSubscribed: {
+                    $cond: {
+                        if: { $in: [req.user?._id, "$subscribers.subscriber"]},
+                        then: true,
+                        else: false
+                    }
+                } 
+            }
+        },
+        {
+            $project: {
+                fullName: 1,
+                userName: 1,
+                email: 1,
+                avatar: 1,
+                coverImage: 1,
+                subscribersCount: 1,
+                subscribedTOCount: 1,
+                isSubscribed: 1
+            }
+        }
+    ])
+
+    if(!channel || channel.length === 0) {
+        throw new apiError(404, "channel does not exists");
+    }
+
+    return res.status(200)
+    .json(new apiResponse(200, channel[0], "Channel Profile Fetched Successfully!"));
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export {
@@ -341,5 +419,6 @@ export {
     changeCurrentUserPassword,
     getCurrentUser,
     updateUserAvatar,
-    updateUserCoverImage
+    updateUserCoverImage,
+    getUserChannelProfile
 }
