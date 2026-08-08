@@ -340,7 +340,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
         throw new apiError(400, "username is required");
     } 
 
-
+    //Aggregation Pipelines 
     const channel = await User.aggregate([
         {
             $match: {

@@ -6,7 +6,7 @@ const videoSchema = new Schema(
             type: String,   //claudanary URL
             required: true,
         },
-        thabnail: {
+        thumbnail: {
             type: String,   //claudanary URL
             required: true,
         },
