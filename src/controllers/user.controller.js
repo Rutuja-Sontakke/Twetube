@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiError } from "../utils/apiError.js";
-import { User, isPasswordCorrect } from "../models/user.Model.js";
+import { User } from "../models/user.Model.js";
 import { uploadOnCloudinary }from "../utils/claudinary.js"
 import {apiResponse} from "../utils/apiResponse.js"
 import jwt from "jsonwebtoken"
