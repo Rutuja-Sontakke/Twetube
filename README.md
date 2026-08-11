@@ -1,3 +1,3 @@
 #Twetube
 
-This is backend of Twetube
+This is backend Project inspired by Youtube + Twitter called TweTube
